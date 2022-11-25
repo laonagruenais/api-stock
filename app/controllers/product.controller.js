@@ -96,6 +96,37 @@ exports.update = (req, res) => {
     });
 };
 
+// Update a stock Product by the id in the request
+exports.updateStock = (req, res) => {
+  const id = req.params.id;
+
+  Product.update
+  (
+    { stock
+      : req.body.stock
+    },
+    {
+      where: { id: id }
+    }   
+  )
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Product was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Product with id=${id}. Maybe Product was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Product with id=" + id
+      });
+    });
+};
+
 // Delete a Product with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;

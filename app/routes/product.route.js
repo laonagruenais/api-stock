@@ -18,6 +18,9 @@ module.exports = app => {
   // Update a Product with id
   router.put("/:id", products.update);
 
+  // Update a stock Product with id
+  router.put("/stock/:id", products.updateStock);
+
   // Delete a Products with id
   router.delete("/:id", products.delete);
 
