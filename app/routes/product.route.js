@@ -21,6 +21,9 @@ module.exports = app => {
   // Update a stock Product with id
   router.put("/stock/:id", products.updateStock);
 
+  // Delete a stock Product with id
+  router.delete("/stock/:id", products.delete);
+
   // Delete a Products with id
   router.delete("/:id", products.delete);
 

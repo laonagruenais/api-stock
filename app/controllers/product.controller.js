@@ -127,6 +127,31 @@ exports.updateStock = (req, res) => {
     });
 };
 
+// Delete a stock Product by the id in the request
+exports.deleteStock = (req, res) => {
+  const id = req.params.id;
+
+  Product.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Product was deleted successfully!"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Product with id=${id}. Maybe Product was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Product with id=" + id
+      });
+    });
+};
+
 // Delete a Product with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
