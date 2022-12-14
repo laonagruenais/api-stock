@@ -5,15 +5,16 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Product
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.id) {
     res.status(400).send({
-      message: "Content can not be empty!"
+      message: "Id can not be empty!"
     });
     return;
   }
 
   // Create a Product
   const product = {
+    id: req.body.id,
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false,
@@ -35,8 +36,8 @@ exports.create = (req, res) => {
 
 // Retrieve all Product from the database.
 exports.findAll = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+  const id = req.query.id;
+  var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
 
   Product.findAll({ where: condition })
     .then(data => {
@@ -111,8 +112,8 @@ exports.updateStock = (req, res) => {
   )
     .then(num => {
       if (num == 1) {
-        res.send({
-          message: "Product was updated successfully."
+        Product.findByPk(id).then((data) => {
+          res.send(data);
         });
       } else {
         res.send({
@@ -136,8 +137,8 @@ exports.deleteStock = (req, res) => {
   })
     .then(num => {
       if (num == 1) {
-        res.send({
-          message: "Product was deleted successfully!"
+        Product.findByPk(id).then((data) => {
+          res.send(data);
         });
       } else {
         res.send({
@@ -161,8 +162,8 @@ exports.delete = (req, res) => {
   })
     .then(num => {
       if (num == 1) {
-        res.send({
-          message: "Product was deleted successfully!"
+        Product.findByPk(id).then((data) => {
+          res.send(data);
         });
       } else {
         res.send({
